@@ -112,7 +112,7 @@ public class ParsePushPluginReceiver extends ParsePushBroadcastReceiver {
     JSONObject pnData = getPushData(intent);
     String pnTag = getNotificationTag(context, pnData);
 
-    Log.d(LOGTAG, "onPushOpen - pnTag: " + pnData);
+    Log.d(LOGTAG, "onPushOpen - pnTag: " + pnData + "," + pnTag);
 
     Intent cIntent = new Intent(ACTION_PUSH_OPEN);
     Intent dIntent = new Intent(ACTION_PUSH_DELETE);
@@ -142,6 +142,10 @@ public class ParsePushPluginReceiver extends ParsePushBroadcastReceiver {
       String id = "ParseMultiNotification", name = pnData.optString("title");
       int importance = NotificationManager.IMPORTANCE_DEFAULT;
       String desc = pnData.optString("alert");
+
+      if (name == null) {
+         name = getAppName(context);
+      }
 
       NotificationChannel channel = new NotificationChannel(id, name, importance);
       channel.setDescription(desc);
